@@ -1,9 +1,9 @@
-fun isValidSolution(state: , k: Int): Boolean {
+fun isValidSolution(state: MutableList<Int>, k: Int): Boolean {
     if (state.size < k)
     	return false
     
     for (i in 1 until state.size) {
-        if (state(i) < state(i - 1)) {
+        if (state[i] < state[i - 1]) {
             return false
         }
     }
@@ -11,27 +11,34 @@ fun isValidSolution(state: , k: Int): Boolean {
     return true
 }
 
-fun getCandidates(state: List<Int>, n: Int, k: Int): Set<Int> {
+fun getCandidates(state: MutableList<Int>, n: Int, k: Int): MutableSet<Int> {
     if (state.size >= k) {
-        return emptySet()
+        return mutableSetOf()
     }
     
-    return (state.getLast() until n).toSet()
+    return if (state.isEmpty())
+        	(0 until n).toMutableSet()
+    	else
+    		((state.last()) until n).toMutableSet()
 }
 
-fun findCombinations(n: Int, k: Int, state: List<Int>, solutions: Set<List<Int>>): Set<List<Int>> {
-    if isValidSolution(state, k) {
-        solutions.add(state.copyOf())
+fun findCombinations(n: Int, k: Int, state: MutableList<Int>, solutions: MutableSet<MutableList<Int>>): MutableSet<MutableList<Int>> {
+    println("enter")
+    if (isValidSolution(state, k)) {
+        solutions.add(state) //watch out no copy
         return solutions
     }
     
     for (i in getCandidates(state, n, k)) {
         state.add(i)
         findCombinations(n, k, state, solutions)
-        state.dropLast()
+        state.dropLast(1)
     }
+    
+    println("ret empty")
+    return mutableSetOf()
 }
  
 fun main() {
-    print(findCombinations(3, 2, emptyMutableList<Int>(), emptySet<List<Int>>()))
+    print(findCombinations(3, 2, mutableListOf(), mutableSetOf()))
 }
