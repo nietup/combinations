@@ -1,9 +1,9 @@
 fun isValidSolution(state: MutableList<Int>, k: Int): Boolean {
-    if (state.size < k)
+    if (state.size > k)
     	return false
     
     for (i in 1 until state.size) {
-        if (state[i] < state[i - 1]) {
+        if (state[i] <= state[i - 1]) {
             return false
         }
     }
@@ -23,9 +23,8 @@ fun getCandidates(state: MutableList<Int>, n: Int, k: Int): MutableSet<Int> {
 }
 
 fun findCombinations(n: Int, k: Int, state: MutableList<Int>, solutions: MutableSet<MutableList<Int>>): MutableSet<MutableList<Int>> {
-    println("enter")
     if (isValidSolution(state, k)) {
-        solutions.add(state) //watch out no copy
+        solutions.add(state.toMutableList())
         return solutions
     }
     
@@ -35,7 +34,6 @@ fun findCombinations(n: Int, k: Int, state: MutableList<Int>, solutions: Mutable
         state.dropLast(1)
     }
     
-    println("ret empty")
     return mutableSetOf()
 }
  
