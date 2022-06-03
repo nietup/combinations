@@ -17,7 +17,6 @@ fun findCombinations(n: Int, k: Int, state: MutableList<Int>, solutions: Mutable
     for (i in getCandidates(state, n)) {
         state.add(i)
         findCombinations(n, k, state, solutions)
-        // todo why
         println("returned from recursion, removing last element from $state")
         state.removeLast()
     }
